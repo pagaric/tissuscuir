@@ -1,0 +1,16 @@
+{
+    "name": "pagaric/tissuscuir",
+    "description": "Project for tissuscuir",
+    "authors": [
+        {
+            "name": "pagaric",
+            "email": "pagaric@cwa12.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {}
+}
