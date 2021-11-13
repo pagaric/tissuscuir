@@ -1,4 +1,7 @@
 <?php
+/**
+ * Autoloader perso
+ */
 
 spl_autoload_register('autoload');
 
