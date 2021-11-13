@@ -48,9 +48,10 @@ class DBMysql
                 );
             } catch (PDOException $e) {
                 echo "Erreur: " . $e->getMessage();
+                die();
             }
         }
-
+        
         return $this->pdo;
 
         // return $this->pdo ?? $this->pdo = new PDO("mysql:dbname={$this->dbName};host={$this->host};charset=UTF8", $this->userName, $this->pwd);

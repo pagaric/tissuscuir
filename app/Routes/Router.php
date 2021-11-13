@@ -21,6 +21,8 @@ class Router
     {
         $route = new Route($path, $action);
         $this->routes[$method][] = $route;
+        
+        // Si la route est nommées on alimente $namedRoutes
         if($name) {
             $this->namedRoutes[$name] = $path;
         }
@@ -85,7 +87,9 @@ class Router
                 return $route->execute();
             }
         }
-        return header('HTTP/1.0 404 Not Found');
+        // http_response_code(404);
+        // header('HTTP/1.0 404 Not Found');
+        header('Location: '.route('notFound'));
     }
 
     public function getPathNamedRoute($name)

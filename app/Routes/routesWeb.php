@@ -1,8 +1,8 @@
 <?php
 
 use App\Routes\Router;
-use App\Controllers\ApiController;
-use App\Controllers\BlogController;
+use App\Controllers\MainController;
+use App\Controllers\UserController;
 
 $url = "";
 if(!empty($_GET) && $_GET['url'] != null ){
@@ -11,21 +11,29 @@ if(!empty($_GET) && $_GET['url'] != null ){
 
 $router = new Router($url);
 
-// $router->get('/', 'App\Controllers\BlogController@welcome');
-// $router->get('/posts', 'App\Controllers\BlogController@index');
-// $router->get('/posts/:id', 'App\Controllers\BlogController@show');
+// Génération du hash de "pass"
+$router->get('/hash', [UserController::class, 'showHash']);
 
-$router->get('/', [BlogController::class, 'welcome'], 'accueil');
-$router->get('/posts', [BlogController::class, 'index'], 'get.posts');
-$router->get('/posts/:id', [BlogController::class, 'show'], 'get.postId');
-$router->get('/hello', [BlogController::class, 'hello']);
+// Routes de l'application
+$router->get('/', [MainController::class, 'home'], 'accueil');
+$router->get('/users', [UserController::class, 'index'], 'allUsers');
 
-$router->get('/api/posts', [ApiController::class, 'index']);
+// Route 404
+$router->get('/404', [MainController::class, 'notFound'], 'notFound');
 
-function route($name)
+/**
+ * Permet de retourner l'url à partir du nom de la route
+ *
+ * @param string $name
+ * @return string
+ */
+function route(string $name): string
 {
     global $router;
     return $router->getPathNamedRoute($name);
 }
 
+/**
+ * démarre le router
+ */
 $router->run();

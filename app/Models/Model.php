@@ -19,7 +19,7 @@ abstract class Model
 
     public function getAll()
     {
-        $stmt = $this->pdo->query("SELECT * FROM {$this->table} ORDER BY created_at DESC");
+        $stmt = $this->pdo->query("SELECT * FROM {$this->table} ORDER BY inscrit_le DESC");
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($this), [$this->pdo]);
         return $stmt->fetchAll();
     }

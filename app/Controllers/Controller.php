@@ -20,11 +20,14 @@ abstract class Controller
     {
         ob_start();
 
+        if($params){
+            extract($params);
+        }
         $path = str_replace('.', DIRECTORY_SEPARATOR, $path);
         require VIEWS .$path. '.html.php';
         
         $content = ob_get_clean();
 
-        require VIEWS .'layout.html.php';
+        require VIEWS .'layouts/layout.html.php';
     }
 }
