@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use PDO;
 use App\Models\Post;
+use App\Core\Controllers\Controller;
 
 class ApiController extends Controller
 {

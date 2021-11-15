@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Core\Models;
 
 use PDO;
-use App\Database\DBMysql;
+use App\Core\Database\DBMysql;
 
 abstract class Model
 {
