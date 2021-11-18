@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = new User;
+        $user = new User();
         $data = $user->getAll();
         $title = 'Tous les utilisateurs';
 

@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 /**
  * Import de l'autoloader

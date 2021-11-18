@@ -6,29 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'Mon super blog' ?></title>
-    <link rel="stylesheet" href="<?= ASSETS . 'css' . DIRECTORY_SEPARATOR . 'app.css' ?>">
+    <!-- <link rel="stylesheet" href="<?= ASSETS . 'css' . DIRECTORY_SEPARATOR . 'app.css' ?>"> -->
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="<?= route('accueil') ?>">TissusCuir</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav>
+        <a href="<?= route('accueil') ?>">TissusCuir</a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= route('accueil') ?>">Accueil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= route('allUsers') ?>">Utilisateurs</a>
-                </li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="<?= route('accueil') ?>">Accueil</a></li>
+            <li><a href="<?= route('allUsers') ?>">Utilisateurs</a></li>
+        </ul>
+        <ul>
+            <li><a href="<?= route('register') ?>">Register</a></li>
+            <li><a href="<?= route('login') ?>">Login</a></li>
+            <li><a href="<?= route('logout') ?>">Logout</a></li>
+        </ul>
     </nav>
 
-    <div class="container">
+    <div>
         <?= $content ?>
     </div>
 </body>
