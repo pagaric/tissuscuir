@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <?php d($_SESSION) ?>
     <nav>
         <a href="<?= route('accueil') ?>">TissusCuir</a>
 
@@ -23,6 +24,11 @@
             <li><a href="<?= route('logout') ?>">Logout</a></li>
         </ul>
     </nav>
+    <p><a href="<?= route('showHash', ['pass']) ?>">lien vers hash</a></p>
+
+    <!-- Affichage d'éventuels messages -->
+    <?= '<p>' .printIfHasFlashMessage('error'). '</p>' ?>
+    <?= '<p>' .printIfHasFlashMessage('success'). '</p>' ?>
 
     <div>
         <?= $content ?>

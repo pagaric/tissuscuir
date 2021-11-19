@@ -1,10 +1,70 @@
 <?php
 
-function sayHello()
+use App\Config\Config;
+
+$config = Config::getInstance(CONFIG);
+
+require_once __DIR__. '/../app/Routes/routesWeb.php';
+
+/**
+ * Construit une url complète
+ *
+ * @param string $url
+ * @return string
+ */
+function url(string $url): string
 {
-    return 'Hello World !';
+    global $config;
+    return $config->get('url'). $url;
 }
 
+/**
+ * Permet de retourner l'url à partir du nom de la route
+ *
+ * @param string $name
+ * @param array $params
+ * @return string
+ */
+function route(string $name, array $params = []): string
+{
+    global $router;
+    $url = $router->getPathNamedRoute($name);
+
+    if (!empty($params)) {
+        $url = preg_Replace('#:([\w]+)#', $params[0], $url);
+    }
+    return $url;
+}
+
+/**
+ * Ajout de message flash
+ *
+ * @param string $categorie
+ * @param string $message
+ * @return void
+ */
+function addFlashMessage(string $categorie, string $message)
+{
+    $_SESSION['messages'][$categorie] = $message;
+}
+
+/**
+ * Affichage de message s'il existe
+ *
+ * @param string $categorie
+ * @return string
+ */
+function printIfHasFlashMessage(string $categorie): ?string
+{
+    if(isset($_SESSION['messages'][$categorie]) && !empty($_SESSION['messages'][$categorie])){
+        $message =  $_SESSION['messages'][$categorie];
+        unset($_SESSION['messages'][$categorie]);
+        return $message;
+    } else {
+        return NULL;
+    }
+}
+/* ==================== Helpers de debug ===================== */
 function d($var)
 {
     echo '<pre>';

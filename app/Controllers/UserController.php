@@ -11,11 +11,12 @@ class UserController extends Controller
     /**
      * Génération d'un hash pour les tests
      *
+     * @param string $toHash
      * @return string
      */
-    public function showHash(): string
+    public function showHash(string $toHash): string
     {
-        $toHash = 'pass';
+        // $toHash = 'pass';
         echo password_hash($toHash, PASSWORD_BCRYPT);
         die();
     }

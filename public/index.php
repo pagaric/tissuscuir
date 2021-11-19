@@ -11,10 +11,6 @@ session_start();
  */
 require __DIR__.'/../vendor/autoload.php';
 
-/**
- * Import du fichier helpers
- */
-require __DIR__. '/../utils/helpers.php';
 
 /**
  * Chemin vers le dossier vues
@@ -37,6 +33,12 @@ define('CONFIG', dirname(__DIR__) .DIRECTORY_SEPARATOR. 'config.php');
 // define('AUTOLOAD', 'app');
 
 /**
- * import des routes
+ * Import du fichier helpers
  */
-require_once __DIR__. '/../app/Routes/routesWeb.php';
+require __DIR__. '/../utils/helpers.php';
+
+/**
+ * import des routes
+ * require dans le fichier helpers.php
+ */
+// require_once __DIR__. '/../app/Routes/routesWeb.php';

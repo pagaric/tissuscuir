@@ -38,20 +38,30 @@ class AuthController extends Controller
     public function authenticate()
     {
         unset($_SESSION['user']);
+        unset($_SESSION['messages']);
 
         $email = $_POST['email'];
         $pass = $_POST['pwd'];
 
         $user = new User();
         $data = $user->getUser($email);
-        if($data){
+        
+        if ($data && password_verify($pass, $data->password)) {
             $_SESSION['user'] = $data;
+            addFlashMessage('success', 'Vous êtes bien connecté.');
+
+            $title = 'Accueil';
+            return $this->view('home', compact('title'));
+        } else {
+            $_SESSION['user'] = NULL;
+            addFlashMessage('error', 'Identifiants incorrects.');
+
+            $title = 'Login';
+            return $this->view('auth.login', compact('title'));
         }
-        dd($_SESSION['user']);
     }
 
     public function logout()
     {
-
     }
 }
