@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'autoload' => "app",
+    'autoload' => 'app',
+    'url' => 'url de l\'application',
     'db' => [
         'host' => 'localhost',
         'port' => '3306',

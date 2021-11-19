@@ -4,7 +4,7 @@ use App\Config\Config;
 
 $config = Config::getInstance(CONFIG);
 
-require_once __DIR__. '/../app/Routes/routesWeb.php';
+require_once(__DIR__. '/../app/Routes/routesWeb.php');
 
 /**
  * Construit une url complète

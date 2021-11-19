@@ -1,6 +1,5 @@
 <?php
 
-use App\Config\Config;
 use App\Core\Routes\Router;
 use App\Controllers\MainController;
 use App\Controllers\UserController;
