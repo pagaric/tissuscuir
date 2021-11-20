@@ -1,6 +1,6 @@
 # PHP MVC
 
-Il faut dupliquer le fichier `config.copy.php` et le renomer `config.php`.
+Il faut dupliquer le fichier `config.exemple.php` et le renomer `config.php`.
 
 Le dossier racine est "public"
 

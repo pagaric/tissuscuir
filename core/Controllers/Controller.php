@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Controllers;
+namespace Core\Controllers;
 
 use App\Config\Config;
 use App\Config\Globals;
@@ -16,6 +16,14 @@ abstract class Controller
         // $this->globals = Globals::getInstance();
     }
 
+    /**
+     * Permet de retourner une vue et de lui passer des paramètres
+     * sous forme de tableau
+     *
+     * @param string $path
+     * @param array|null $params (ex: compact('data', 'title'))
+     * @return void
+     */
     protected function view(string $path, array $params = null)
     {
         ob_start();

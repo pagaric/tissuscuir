@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Routes;
+namespace Core\Routes;
 
 /**
  * Cette classe Router va stocker les routes dans un tableau

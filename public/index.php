@@ -15,12 +15,12 @@ require dirname(__DIR__) .'/vendor/autoload.php';
 /**
  * Chemin vers le dossier vues
  */
-define('VIEWS', dirname(__DIR__) .DIRECTORY_SEPARATOR. 'views' .DIRECTORY_SEPARATOR);
+define('VIEWS', dirname(__DIR__) .DIRECTORY_SEPARATOR. 'app/views' .DIRECTORY_SEPARATOR);
 
 /**
  * Chemin vers le dossier public
  */
-define('ASSETS', dirname($_SERVER['SCRIPT_NAME']));
+// define('ASSETS', dirname($_SERVER['SCRIPT_NAME']).'public/');
 
 /**
  * Chemin du fichier config.php
@@ -30,12 +30,13 @@ define('CONFIG', dirname(__DIR__) .DIRECTORY_SEPARATOR. 'config.php');
 /**
  * Nom du dossier pour l'autoload perso
  */
-// define('AUTOLOAD', 'app');
+define('AUTOLOAD', 'app');
 
 /**
  * Import du fichier helpers
+ * et des routes
  */
-require dirname(__DIR__). '/utils/helpers.php';
+require dirname(__DIR__). '/core/utils/helpers.php';
 
 /**
  * import des routes

@@ -2,7 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Core\Controllers\Controller;
+use Core\Controllers\Controller;
+
 
 class MainController extends Controller
 {
