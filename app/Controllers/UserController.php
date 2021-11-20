@@ -23,9 +23,10 @@ class UserController extends Controller
 
     public function index()
     {
+        $title = 'Tous les utilisateurs';
+        
         $user = new User();
         $data = $user->getAll();
-        $title = 'Tous les utilisateurs';
 
         return $this->view('users', compact('data', 'title'));
     }

@@ -19,14 +19,14 @@ abstract class Model
 
     public function getAll()
     {
-        $stmt = $this->pdo->query("SELECT * FROM {$this->table} ORDER BY inscrit_le DESC");
+        $stmt = $this->pdo->query("SELECT * FROM {$this->table}");
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($this), [$this->pdo]);
         return $stmt->fetchAll();
     }
 
     public function getAllApi()
     {
-        $stmt = $this->pdo->query("SELECT * FROM {$this->table} ORDER BY created_at DESC");
+        $stmt = $this->pdo->query("SELECT * FROM {$this->table}");
         // $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $count = $stmt->rowCount();
         $count != 0 ? $result =  $stmt->fetchAll() : $result = $count;

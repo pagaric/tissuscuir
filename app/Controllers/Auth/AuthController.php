@@ -7,6 +7,7 @@ use Core\Controllers\Controller;
 
 class AuthController extends Controller
 {
+
     public function register()
     {
         $title = 'Register';
@@ -15,7 +16,7 @@ class AuthController extends Controller
 
     public function createUser()
     {
-        $title = 'Register';
+        $title = 'Accueil';
 
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
@@ -26,7 +27,12 @@ class AuthController extends Controller
         $user = new User();
         $user->createUser($nom, $prenom, $email, $tel, $pwd);
 
-        return $this->view('auth.register', compact('title'));
+        // Authentification automatique après enregistrement
+        $data = $user->getUser($email);
+        $_SESSION['user'] = $data;
+        addFlashMessage('success', 'Vous êtes bien enregistré.');
+
+        return $this->view('home', compact('title'));
     }
 
     public function login()
