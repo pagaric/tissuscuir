@@ -69,5 +69,9 @@ class AuthController extends Controller
 
     public function logout()
     {
+        $title = 'Accueil';
+        unset($_SESSION['user']);
+        addFlashMessage('success', 'Vous êtes bien déconnecté.');
+        return $this->view('home', compact('title'));
     }
 }

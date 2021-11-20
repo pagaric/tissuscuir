@@ -120,8 +120,8 @@ function asset(string $url): string
 /**
  * Ajout de message flash
  *
- * @param string $categorie
- * @param string $message
+ * @param string $categorie (ex: error, success)
+ * @param string $message (ex: vous êtes bien connecté)
  * @return void
  */
 function addFlashMessage(string $categorie, string $message)
@@ -130,7 +130,7 @@ function addFlashMessage(string $categorie, string $message)
 }
 
 /**
- * Affichage de message s'il existe
+ * Affichage de message s'il existe et suppression du message
  *
  * @param string $categorie
  * @return string
@@ -139,7 +139,7 @@ function printIfHasFlashMessage(string $categorie): ?string
 {
     if(isset($_SESSION['messages'][$categorie]) && !empty($_SESSION['messages'][$categorie])){
         $message =  $_SESSION['messages'][$categorie];
-        unset($_SESSION['messages'][$categorie]);
+        unset($_SESSION['messages']);
         return $message;
     } else {
         return NULL;
