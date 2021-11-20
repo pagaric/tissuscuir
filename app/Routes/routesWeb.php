@@ -6,10 +6,12 @@ use App\Controllers\UserController;
 use App\Controllers\Auth\AuthController;
 
 
-$url = "";
-if (!empty($_GET) && $_GET['url'] != null) {
-    $url = $_GET['url'];
-}
+// $url = "";
+// if (!empty($_GET) && $_GET['url'] != null) {
+//     $url = $_GET['url'];
+// }
+
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $router = new Router($url);
 

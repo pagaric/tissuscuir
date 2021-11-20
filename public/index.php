@@ -9,7 +9,7 @@ session_start();
 /**
  * Import de l'autoloader de composer
  */
-require __DIR__.'/../vendor/autoload.php';
+require dirname(__DIR__) .'/vendor/autoload.php';
 
 
 /**
@@ -35,10 +35,10 @@ define('CONFIG', dirname(__DIR__) .DIRECTORY_SEPARATOR. 'config.php');
 /**
  * Import du fichier helpers
  */
-require __DIR__. '/../utils/helpers.php';
+require dirname(__DIR__). '/utils/helpers.php';
 
 /**
  * import des routes
  * require dans le fichier helpers.php
  */
-// require_once __DIR__. '/../app/Routes/routesWeb.php';
+// require_once dirname(__DIR__). '/app/Routes/routesWeb.php';
