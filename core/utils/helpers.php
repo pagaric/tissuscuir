@@ -6,6 +6,37 @@ $config = Config::getInstance(CONFIG);
 
 require_once(dirname(__DIR__) . '/../app/Routes/routesWeb.php');
 
+#region Validation données
+
+/**
+ * Protection de base d'une chaine de caractère
+ *
+ * @param string $donnee
+ * @return string
+ */
+function protectDonnee(string $donnee): string
+{
+    $donnee = trim($donnee);
+    $donnee = stripslashes($donnee);
+    $donnee = htmlspecialchars($donnee);
+    return $donnee;
+}
+
+/**
+ * Vérification d'une adresse mail
+ *
+ * @param string $mail
+ * @return boolean
+ */
+function isEmail(string $mail): bool
+{
+    $test = filter_var($mail, FILTER_VALIDATE_EMAIL);
+    
+    return $test ? true : false;
+}
+
+#endregion
+
 #region CSRF protection
 
 /**
@@ -16,7 +47,7 @@ require_once(dirname(__DIR__) . '/../app/Routes/routesWeb.php');
 function genCsrfToken(): string
 {
     global $config;
-    return bin2hex(random_bytes($config->get('tokenLenght')));
+    return bin2hex(random_bytes($config->get('tokenLenght')/2));
 }
 
 /**
@@ -69,6 +100,23 @@ function destroyCsrfToken(): void
         unset( $_SESSION['csrf_token_time'] );
     }
 }
+
+/**
+ * Génère un champ de type hiddes pour le token
+ * usage: <?= genInputCsrfToken() ?>
+ *
+ * @return string
+ */
+function genInputCsrfToken(): string
+{
+    if(getCsrfToken() != NULL) {
+        destroyCsrfToken();
+    }
+    storeCsrfToken();
+    $token = getCsrfToken();
+    return "<input type=\"hidden\" name=\"csrf_token\" value=\"" .$token. "\">";
+}
+
 #endregion
 
 #region Routes/URL
@@ -103,7 +151,7 @@ function route(string $name, array $params = []): string
 }
 
 /**
- * Permet de retrouver une url dans le dossier public
+ * Permet de pointer vers le dossier public
  *
  * @param string $url
  * @return string
@@ -112,6 +160,11 @@ function asset(string $url): string
 {
     global $config;
     return $config->get('url'). '/public/' .$url;
+}
+
+function redirect(string $r)
+{
+    header('Location: ' .$r);
 }
 
 #endregion

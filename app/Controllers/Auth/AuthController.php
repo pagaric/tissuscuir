@@ -8,15 +8,27 @@ use Core\Controllers\Controller;
 class AuthController extends Controller
 {
 
+    /**
+     * Formulaire d'enregistrement
+     *
+     * @return void
+     */
     public function register()
     {
         $title = 'Register';
         return $this->view('auth.register', compact('title'));
     }
 
+    /**
+     * Création d'un utilisateur en BDD
+     * L'utilisateur dera automatiquement connecté
+     *
+     * @return void
+     */
     public function createUser()
     {
-        $title = 'Accueil';
+        // TODO mettre en place la protection CSRF
+        // TODO mettre en place la validation du formulaire
 
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
@@ -32,17 +44,31 @@ class AuthController extends Controller
         $_SESSION['user'] = $data;
         addFlashMessage('success', 'Vous êtes bien enregistré.');
 
-        return $this->view('home', compact('title'));
+        redirect(route('accueil'));
+        exit;
     }
 
+    /**
+     * Formulaire d'authentification
+     *
+     * @return void
+     */
     public function login()
     {
         $title = 'Login';
         return $this->view('auth.login', compact('title'));
     }
 
+    /**
+     * Authentification d'un utilisateur
+     *
+     * @return void
+     */
     public function authenticate()
     {
+        // TODO mettre en place la protection CSRF
+        // TODO mettre en place la validation du formulaire
+        
         unset($_SESSION['user']);
         unset($_SESSION['messages']);
 
@@ -51,13 +77,13 @@ class AuthController extends Controller
 
         $user = new User();
         $data = $user->getUser($email);
-        
+
         if ($data && password_verify($pass, $data->password)) {
             $_SESSION['user'] = $data;
             addFlashMessage('success', 'Vous êtes bien connecté.');
 
-            $title = 'Accueil';
-            return $this->view('home', compact('title'));
+            redirect(route('accueil'));
+            exit;
         } else {
             $_SESSION['user'] = NULL;
             addFlashMessage('error', 'Identifiants incorrects.');
@@ -67,11 +93,16 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Déconnexion de l'utilisateur
+     *
+     * @return void
+     */
     public function logout()
     {
-        $title = 'Accueil';
         unset($_SESSION['user']);
         addFlashMessage('success', 'Vous êtes bien déconnecté.');
-        return $this->view('home', compact('title'));
+        redirect(route('accueil'));
+        exit;
     }
 }

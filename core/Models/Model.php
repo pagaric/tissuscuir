@@ -20,7 +20,7 @@ abstract class Model
     public function getAll()
     {
         $stmt = $this->pdo->query("SELECT * FROM {$this->table}");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($this), [$this->pdo]);
+        // $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($this), [$this->pdo]);
         return $stmt->fetchAll();
     }
 
@@ -36,7 +36,7 @@ abstract class Model
     public function getById($id)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = (?)");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($this), [$this->pdo]);
+        // $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($this), [$this->pdo]);
         $stmt->execute([$id]);
         return $stmt->fetch();
     }

@@ -33,6 +33,8 @@ $router->get('/logout', [AuthController::class, 'logout'], 'logout');
 
 // Route 404
 $router->get('/404', [MainController::class, 'notFound'], 'notFound');
+// Route 419
+$router->get('/419', [MainController::class, 'expired'], 'expired');
 
 /**
  * démarre le router

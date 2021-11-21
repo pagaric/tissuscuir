@@ -25,7 +25,7 @@
         </ul>
     </nav>
     <p><a href="<?= route('showHash', ['pass']) ?>">lien vers hash</a></p>
-
+    
     <!-- Affichage d'éventuels messages -->
     <?= '<p>' .printIfHasFlashMessage('error'). '</p>' ?>
     <?= '<p>' .printIfHasFlashMessage('success'). '</p>' ?>
