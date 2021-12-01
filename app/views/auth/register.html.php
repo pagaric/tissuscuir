@@ -1,5 +1,9 @@
 <h1>Enregistrement</h1>
+
 <form action="<?= route('create.user') ?>" method="post">
+
+    <!-- Champ toket csrf -->
+    <?= genInputCsrfToken() ?>
 
     <div>
         <label for="nom">Nom</label>

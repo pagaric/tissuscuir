@@ -27,14 +27,20 @@ class AuthController extends Controller
      */
     public function createUser()
     {
-        // TODO mettre en place la protection CSRF
+        // protection CSRF
+        if(!isset($_POST['csrf_token']) || !verifyCsrfToken($_POST['csrf_token']) ) {
+            redirect(route('expired'));
+            exit;
+        }
+
         // TODO mettre en place la validation du formulaire
 
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
-        $email = $_POST['email'];
-        $tel = $_POST['tel'];
-        $pwd = password_hash($_POST['pwd'], PASSWORD_BCRYPT);
+        $nom = protectDonnee($_POST['nom']);
+        $prenom = protectDonnee($_POST['prenom']);
+        $email = protectDonnee($_POST['email']);
+        $tel = protectDonnee($_POST['tel']);
+        $pwd = password_hash(protectDonnee($_POST['pwd']), PASSWORD_BCRYPT);
+        
 
         $user = new User();
         $user->createUser($nom, $prenom, $email, $tel, $pwd);
@@ -44,6 +50,7 @@ class AuthController extends Controller
         $_SESSION['user'] = $data;
         addFlashMessage('success', 'Vous êtes bien enregistré.');
 
+        destroyCsrfToken();
         redirect(route('accueil'));
         exit;
     }
@@ -66,14 +73,18 @@ class AuthController extends Controller
      */
     public function authenticate()
     {
-        // TODO mettre en place la protection CSRF
+        // protection CSRF
+        if(!isset($_POST['csrf_token']) || !verifyCsrfToken($_POST['csrf_token']) ) {
+            redirect(route('expired'));
+            exit;
+        }
         // TODO mettre en place la validation du formulaire
         
         unset($_SESSION['user']);
         unset($_SESSION['messages']);
 
-        $email = $_POST['email'];
-        $pass = $_POST['pwd'];
+        $email = protectDonnee($_POST['email']);
+        $pass = protectDonnee($_POST['pwd']);
 
         $user = new User();
         $data = $user->getUser($email);
@@ -81,7 +92,7 @@ class AuthController extends Controller
         if ($data && password_verify($pass, $data->password)) {
             $_SESSION['user'] = $data;
             addFlashMessage('success', 'Vous êtes bien connecté.');
-
+            destroyCsrfToken();
             redirect(route('accueil'));
             exit;
         } else {
