@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Config;
+namespace Core\Globals;
 
 class Globals
 {
@@ -29,26 +29,17 @@ class Globals
      */
     private $server;
 
-    private static $_instance = null;
-
     /**
      * Globals constructor.
      */
-    private function __construct()
+    public function __construct()
     {
+        // TODO ajouter input_filter
         $this->post = $_POST;
         $this->get = $_GET;
         $this->files = $_FILES;
         $this->request = $_REQUEST;
         $this->server = $_SERVER;
-    }
-
-    public static function getInstance()
-    {
-        if(self::$_instance === null){
-            self::$_instance = new Globals();
-        }
-        return self::$_instance;
     }
 
     /**
@@ -121,7 +112,7 @@ class Globals
      * @param $key
      * @return array|false|string
      */
-    public function getEnv($key)
+    public function getEnv(string $key)
     {
         return getenv($key);
     }

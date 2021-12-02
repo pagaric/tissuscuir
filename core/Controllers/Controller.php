@@ -3,17 +3,17 @@
 namespace Core\Controllers;
 
 use App\Config\Config;
-use App\Config\Globals;
+use Core\Globals\Globals;
 
 abstract class Controller
 {
     protected $config;
-    // protected $globals;
+    protected $globals;
 
     public function __construct()
     {
         $this->config = Config::getInstance(CONFIG);
-        // $this->globals = Globals::getInstance();
+        $this->globals = new Globals();
     }
 
     /**
