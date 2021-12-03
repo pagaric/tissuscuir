@@ -48,7 +48,7 @@ class Globals
     }
 
     /**
-     * @return array
+     * @return array|string
      */
     public function getPost(string $i)
     {
@@ -59,7 +59,7 @@ class Globals
     }
 
     /**
-     * @return array
+     * @return array|string
      */
     public function getGet(string $i = null)
     {
@@ -80,7 +80,7 @@ class Globals
     }
 
     /**
-     * @return array
+     * @return array|string
      */
     public function getRequest()
     {
@@ -88,7 +88,7 @@ class Globals
     }
 
     /**
-     * @return array
+     * @return array|string
      */
     public function getServer(string $i = null)
     {

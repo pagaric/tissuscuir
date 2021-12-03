@@ -4,6 +4,7 @@ namespace App\Controllers\Auth;
 
 use App\Models\User;
 use Core\Controllers\Controller;
+use Core\Validation\Validator;
 
 class AuthController extends Controller
 {
@@ -28,10 +29,12 @@ class AuthController extends Controller
     public function createUser()
     {
         // protection CSRF
-        if(!isset($_POST['csrf_token']) || !verifyCsrfToken($_POST['csrf_token']) ) {
+        $token = $this->globals->getPost('csrf_token');
+        if (!isset($token) || !verifyCsrfToken($token)) {
             redirect(route('expired'));
             exit;
         }
+        destroyCsrfToken();
 
         // TODO mettre en place la validation du formulaire
 
@@ -40,7 +43,7 @@ class AuthController extends Controller
         $email = protectDonnee($_POST['email']);
         $tel = protectDonnee($_POST['tel']);
         $pwd = password_hash(protectDonnee($_POST['pwd']), PASSWORD_BCRYPT);
-        
+
 
         $user = new User();
         $user->createUser($nom, $prenom, $email, $tel, $pwd);
@@ -50,7 +53,6 @@ class AuthController extends Controller
         $_SESSION['user'] = $data;
         addFlashMessage('success', 'Vous êtes bien enregistré.');
 
-        destroyCsrfToken();
         redirect(route('accueil'));
         exit;
     }
@@ -74,14 +76,23 @@ class AuthController extends Controller
     public function authenticate()
     {
         // TODO Ajouter fonctionnalité remember me
-        
+
         // protection CSRF
-        if(!isset($_POST['csrf_token']) || !verifyCsrfToken($_POST['csrf_token']) ) {
+        $token = $this->globals->getPost('csrf_token');
+        if (!isset($token) || !verifyCsrfToken($token)) {
             redirect(route('expired'));
             exit;
         }
+        destroyCsrfToken();
+
         // TODO mettre en place la validation du formulaire
-        
+        $validator = new Validator($_POST);
+        $validate = $validator->validate([
+            'email' => ['min:3', 'required'],
+            'pwd' => ['required', 'max:12']
+        ]);
+        dd('Test en cours');
+
         unset($_SESSION['user']);
         unset($_SESSION['messages']);
 
@@ -94,16 +105,15 @@ class AuthController extends Controller
         if ($data && password_verify($pass, $data->password)) {
             $_SESSION['user'] = $data;
             addFlashMessage('success', 'Vous êtes bien connecté.');
-            destroyCsrfToken();
             redirect(route('accueil'));
             exit;
-        } else {
-            $_SESSION['user'] = NULL;
-            addFlashMessage('error', 'Identifiants incorrects.');
-
-            $title = 'Login';
-            return $this->view('auth.login', compact('title'));
         }
+
+        $_SESSION['user'] = NULL;
+        addFlashMessage('error', 'Identifiants incorrects.');
+
+        $title = 'Login';
+        return $this->view('auth.login', compact('title'));
     }
 
     /**

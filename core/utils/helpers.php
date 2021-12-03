@@ -1,8 +1,10 @@
 <?php
 
 use App\Config\Config;
+use Core\Globals\Globals;
 
 $config = Config::getInstance(CONFIG);
+$globals = new Globals;
 
 require_once(dirname(__DIR__) . '/../app/Routes/routesWeb.php');
 
@@ -86,6 +88,20 @@ function getCsrfToken(): ?string
     } else {
         return NULL;
     }
+}
+
+/**
+ * Vérifie si un token existe
+ *
+ * @return boolean
+ */
+function existCsrfToken(): bool
+{
+    if(isset($_SESSION['csrf_token'])) {
+        return true;
+    }
+
+    return false;
 }
 
 /**

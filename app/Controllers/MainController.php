@@ -10,6 +10,7 @@ class MainController extends Controller
 
     public function home()
     {
+        destroyCsrfToken();
         $title = 'Accueil';
         return $this->view('home', compact('title'));
     }
