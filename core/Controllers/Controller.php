@@ -31,6 +31,7 @@ abstract class Controller
         if($params){
             extract($params);
         }
+        $globals = $this->globals;
         $path = str_replace('.', DIRECTORY_SEPARATOR, $path);
         require VIEWS .$path. '.html.php';
         

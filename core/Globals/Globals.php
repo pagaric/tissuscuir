@@ -30,31 +30,42 @@ class Globals
     private $server;
 
     /**
+     * @var [type]
+     */
+    private $cookie;
+
+    /**
      * Globals constructor.
      */
     public function __construct()
     {
-        // TODO ajouter input_filter
-        $this->post = $_POST;
-        $this->get = $_GET;
+        $this->post = filter_input_array(INPUT_POST);
+        $this->get = filter_input_array(INPUT_GET);
+        $this->server = filter_input_array(INPUT_SERVER);
+        $this->cookie = filter_input_array(INPUT_COOKIE);
         $this->files = $_FILES;
         $this->request = $_REQUEST;
-        $this->server = $_SERVER;
     }
 
     /**
      * @return array
      */
-    public function getPost()
+    public function getPost(string $i)
     {
+        if($i) {
+            return $this->post[$i];
+        }
         return $this->post;
     }
 
     /**
      * @return array
      */
-    public function getGet()
+    public function getGet(string $i = null)
     {
+        if($i) {
+            return $this->get[$i];
+        }
         return $this->get;
     }
 
@@ -63,33 +74,9 @@ class Globals
      */
     public function getFiles()
     {
-        return $this->files;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCookie()
-    {
-        return $_COOKIE;
-    }
-
-    public function setCookie($key, $value, $exp)
-    {
-        setcookie($key, $value, $exp);
-    }
-
-    /**
-     * @return array
-     */
-    public function getSession()
-    {
-        return $_SESSION;
-    }
-
-    public function setSession($key, $value)
-    {
-        $_SESSION[$key] = $value;
+        if($this->files) {
+            return $this->files;
+        }
     }
 
     /**
@@ -103,9 +90,17 @@ class Globals
     /**
      * @return array
      */
-    public function getServer()
+    public function getServer(string $i = null)
     {
+        if($i) {
+            return $this->server[$i];
+        }
         return $this->server;
+    }
+
+    public function getCookie()
+    {
+        return $this->cookie;
     }
 
     /**
@@ -117,11 +112,4 @@ class Globals
         return getenv($key);
     }
 
-    /**
-     * @return string
-     */
-    public function getUri()
-    {
-        return $this->server["REQUEST_URI"];
-    }
 }
