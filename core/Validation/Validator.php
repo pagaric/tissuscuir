@@ -31,25 +31,72 @@ class Validator
                 }
             }
         }
+        // dd($this->errors);
+        return $this->getErrors();
+    }
+
+    private function getErrors()
+    {
         return $this->errors;
     }
     
     private function required(array $args)
     {
-        d('require');
-        d($args);
+        $key = $args[0];
+        $value = trim($this->data[$args[0]]);
+
+        if(!isset($value) || is_null($value) || empty($value)) {
+            $this->errors[$key][] = "Le champ $key est requis.";
+        } 
     }
     
     private function min(array $args)
     {
-        d('min');
-        d($args);
+        $key = $args[0];
+        $condition = (int)$args[1];
+        $value = trim($this->data[$args[0]]);
+
+        if(strlen($value) < $condition) {
+            $this->errors[$key][] = "Le champ $key doit comporter au moins $condition caractères";
+        }
     }
 
     private function max(array $args)
     {
-        d('max');
-        d($args);
+        $key = $args[0];
+        $condition = (int)$args[1];
+        $value = trim($this->data[$args[0]]);
+
+        if(strlen($value) > $condition) {
+            $this->errors[$key][] = "Le champ $key ne doit pas dépasser $condition caractères";
+        }
+    }
+
+    private function mail(array $args)
+    {
+        $key = $args[0];
+        $value = trim($this->data[$args[0]]);
+        if(!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            $this->errors[$key][] = "$value n'est pas une adresse email valide";
+        }
+    }
+
+    private function alpha(array $args)
+    {
+        $key = $args[0];
+        $value = trim($this->data[$args[0]]);
+        if(!ctype_alpha($value)) {
+            $this->errors[$key][] = "$value ne contient pas que des lettres";
+        }
+    }
+
+    private function ctype_alnum(array $args)
+    {
+        $key = $args[0];
+        $value = trim($this->data[$args[0]]);
+        if(!ctype_alnum($value)) {
+            $this->errors[$key][] = "$value ne contient pas que des lettres et des chiffres";
+        }
     }
     
 }

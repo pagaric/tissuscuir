@@ -38,11 +38,11 @@ class AuthController extends Controller
 
         // TODO mettre en place la validation du formulaire
 
-        $nom = protectDonnee($_POST['nom']);
-        $prenom = protectDonnee($_POST['prenom']);
-        $email = protectDonnee($_POST['email']);
-        $tel = protectDonnee($_POST['tel']);
-        $pwd = password_hash(protectDonnee($_POST['pwd']), PASSWORD_BCRYPT);
+        $nom = protectDonnee($this->globals->getPost('nom'));
+        $prenom = protectDonnee($this->globals->getPost('prenom'));
+        $email = protectDonnee($this->globals->getPost('email'));
+        $tel = protectDonnee($this->globals->getPost('tel'));
+        $pwd = password_hash(protectDonnee($this->globals->getPost('pwd')), PASSWORD_BCRYPT);
 
 
         $user = new User();
@@ -87,17 +87,23 @@ class AuthController extends Controller
 
         // TODO mettre en place la validation du formulaire
         $validator = new Validator($_POST);
-        $validate = $validator->validate([
-            'email' => ['min:3', 'required'],
-            'pwd' => ['required', 'max:12']
+        $errors = $validator->validate([
+            'email' => ['mail', 'required'],
+            'pwd' => ['required', 'max:10']
         ]);
-        dd('Test en cours');
+
+        if($errors) {
+            $_SESSION['errors'][] = $errors;
+            header('Location: ' .route('login'));
+            exit;
+        }
+        
 
         unset($_SESSION['user']);
         unset($_SESSION['messages']);
 
-        $email = protectDonnee($_POST['email']);
-        $pass = protectDonnee($_POST['pwd']);
+        $email = protectDonnee($this->globals->getPost('email'));
+        $pass = protectDonnee($this->globals->getPost('pwd'));
 
         $user = new User();
         $data = $user->getUser($email);
