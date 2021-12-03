@@ -73,6 +73,8 @@ class AuthController extends Controller
      */
     public function authenticate()
     {
+        // TODO Ajouter fonctionnalité remember me
+        
         // protection CSRF
         if(!isset($_POST['csrf_token']) || !verifyCsrfToken($_POST['csrf_token']) ) {
             redirect(route('expired'));
