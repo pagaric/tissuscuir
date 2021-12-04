@@ -51,7 +51,7 @@ class AuthController extends Controller
         // Authentification automatique après enregistrement
         $data = $user->getUser($email);
         $_SESSION['user'] = $data;
-        addFlashMessage('success', 'Vous êtes bien enregistré.');
+        addFlashMessage('messages', 'success', 'Vous êtes bien enregistré.');
 
         redirect(route('accueil'));
         exit;
@@ -87,18 +87,11 @@ class AuthController extends Controller
 
         // TODO mettre en place la validation du formulaire
         $validator = new Validator($_POST);
-        $errors = $validator->validate([
+        $validator->validate([
             'email' => ['mail', 'required'],
             'pwd' => ['required', 'max:10']
         ]);
-
-        if($errors) {
-            $_SESSION['errors'][] = $errors;
-            header('Location: ' .route('login'));
-            exit;
-        }
         
-
         unset($_SESSION['user']);
         unset($_SESSION['messages']);
 
@@ -110,13 +103,13 @@ class AuthController extends Controller
 
         if ($data && password_verify($pass, $data->password)) {
             $_SESSION['user'] = $data;
-            addFlashMessage('success', 'Vous êtes bien connecté.');
+            addFlashMessage('messages', 'success', 'Vous êtes bien connecté.');
             redirect(route('accueil'));
             exit;
         }
 
         $_SESSION['user'] = NULL;
-        addFlashMessage('error', 'Identifiants incorrects.');
+        addFlashMessage('messages', 'error', 'Identifiants incorrects.');
 
         $title = 'Login';
         return $this->view('auth.login', compact('title'));
@@ -130,7 +123,7 @@ class AuthController extends Controller
     public function logout()
     {
         unset($_SESSION['user']);
-        addFlashMessage('success', 'Vous êtes bien déconnecté.');
+        addFlashMessage('messages', 'success', 'Vous êtes bien déconnecté.');
         redirect(route('accueil'));
         exit;
     }

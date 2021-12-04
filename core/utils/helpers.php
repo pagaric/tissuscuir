@@ -33,7 +33,7 @@ function protectDonnee(string $donnee): string
 function isEmail(string $mail): bool
 {
     $test = filter_var($mail, FILTER_VALIDATE_EMAIL);
-    
+
     return $test ? true : false;
 }
 
@@ -49,7 +49,7 @@ function isEmail(string $mail): bool
 function genCsrfToken(): string
 {
     global $config;
-    return bin2hex(random_bytes($config->get('tokenLenght')/2));
+    return bin2hex(random_bytes($config->get('tokenLenght') / 2));
 }
 
 /**
@@ -83,7 +83,7 @@ function verifyCsrfToken(string $token): bool
  */
 function getCsrfToken(): ?string
 {
-    if(isset($_SESSION['csrf_token'])) {
+    if (isset($_SESSION['csrf_token'])) {
         return $_SESSION['csrf_token'];
     } else {
         return NULL;
@@ -97,7 +97,7 @@ function getCsrfToken(): ?string
  */
 function existCsrfToken(): bool
 {
-    if(isset($_SESSION['csrf_token'])) {
+    if (isset($_SESSION['csrf_token'])) {
         return true;
     }
 
@@ -111,9 +111,9 @@ function existCsrfToken(): bool
  */
 function destroyCsrfToken(): void
 {
-    if(isset($_SESSION['csrf_token'])) {
-        unset( $_SESSION['csrf_token'] );
-        unset( $_SESSION['csrf_token_time'] );
+    if (isset($_SESSION['csrf_token'])) {
+        unset($_SESSION['csrf_token']);
+        unset($_SESSION['csrf_token_time']);
     }
 }
 
@@ -125,12 +125,12 @@ function destroyCsrfToken(): void
  */
 function genInputCsrfToken(): string
 {
-    if(getCsrfToken() != NULL) {
+    if (getCsrfToken() != NULL) {
         destroyCsrfToken();
     }
     storeCsrfToken();
     $token = getCsrfToken();
-    return "<input type=\"hidden\" name=\"csrf_token\" value=\"" .$token. "\">";
+    return "<input type=\"hidden\" name=\"csrf_token\" value=\"" . $token . "\">";
 }
 
 #endregion
@@ -145,7 +145,7 @@ function genInputCsrfToken(): string
 function url(string $url = ''): string
 {
     global $config;
-    return $config->get('url'). '/' .$url;
+    return $config->get('url') . '/' . $url;
 }
 
 /**
@@ -175,17 +175,18 @@ function route(string $name, array $params = []): string
 function asset(string $url): string
 {
     global $config;
-    return $config->get('url'). '/public/' .$url;
+    return $config->get('url') . '/public/' . $url;
 }
 
 function redirect(string $r)
 {
-    header('Location: ' .$r);
+    header('Location: ' . $r);
+    exit;
 }
 
 #endregion
 
-#region SESSION
+#region SESSION et messages FLASH
 /**
  * Ajout de message flash
  *
@@ -193,9 +194,34 @@ function redirect(string $r)
  * @param string $message (ex: vous êtes bien connecté)
  * @return void
  */
-function addFlashMessage(string $categorie, string $message)
+function addFlashMessage(string $type, string $categorie, string $message)
 {
-    $_SESSION['messages'][$categorie] = $message;
+    $_SESSION[$type][$categorie] = $message;
+}
+
+/**
+ * Vérification si un message exite
+ *
+ * @param string $categorie
+ * @return boolean
+ */
+function existMessage(string $type, string $categorie): bool
+{
+    return (isset($_SESSION[$type][$categorie]) && !empty($_SESSION[$type][$categorie]))
+        ? TRUE : FALSE;
+}
+
+/**
+ * Affiche un message
+ *
+ * @param string $categorie
+ * @return string
+ */
+function printFlashMessage(string $type, string $categorie): string
+{
+    $message =  $_SESSION[$type][$categorie];
+    unset($_SESSION[$type]);
+    return $message;
 }
 
 /**
@@ -204,21 +230,37 @@ function addFlashMessage(string $categorie, string $message)
  * @param string $categorie
  * @return string
  */
-function printIfHasFlashMessage(string $categorie): ?string
+function getIfHasFlashMessage(string $type, string $categorie): ?string
 {
-    if(isset($_SESSION['messages'][$categorie]) && !empty($_SESSION['messages'][$categorie])){
-        $message =  $_SESSION['messages'][$categorie];
-        unset($_SESSION['messages']);
+    if (isset($_SESSION[$type][$categorie]) && !empty($_SESSION[$type][$categorie])) {
+        $message =  $_SESSION[$type][$categorie];
+        unset($_SESSION[$type]);
         return $message;
-    } else {
-        return NULL;
     }
+    return NULL;
+}
+
+/**
+ * Permet s'ils existent
+ * de retourner des messages d'erreur de validation de formulaire
+ * concernant un champ en particulier
+ *
+ * @param string $name : Nom du champ dont on veut récupérer le tableau de message
+ * @return array|null
+ */
+function getFlashFormError(string $name): ?array
+{
+    if (isset($_SESSION['errors'][$name]) && !empty($_SESSION['errors'][$name])) {
+        $message =  $_SESSION['errors'][$name];
+        unset($_SESSION['errors'][$name]);
+        return $message;
+    }
+    return NULL;
 }
 
 #endregion
 
 #region Debug
-
 
 function d($var)
 {
