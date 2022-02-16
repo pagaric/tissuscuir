@@ -91,6 +91,7 @@ class AuthController extends Controller
             'email' => ['mail', 'required'],
             'pwd' => ['required', 'max:10']
         ]);
+
         unset($_SESSION['user']);
         unset($_SESSION['messages']);
 
